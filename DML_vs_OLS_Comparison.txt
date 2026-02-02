@@ -25,8 +25,8 @@ What we found:
 
                     Naive OLS              DML              The Gap
                     (ignores X)            (orthogonal)     
-────────────────────────────────────────────────────────────────────
-Effect estimate:    0.3420                 0.0468           OLS is 7.3× too high
+=====================================================================
+Effect estimate:    0.3420                 0.0468           OLS is 7.3x too high
 Std. error:         0.0145                 0.0045           DML is tighter
 t-statistic:        23.54                  10.41            OLS looks significant
                                                              but it's biased
@@ -58,9 +58,9 @@ Double Machine Learning (The Debiasing Approach)
 DML takes a different route. Instead of fighting the confounding, it eliminates
 it by partialing out. Here's the pipeline:
 
-1. Estimate how Y depends on X alone (call it m̂)
-2. Estimate how T depends on X alone (call it p̂)
-3. Take residuals: Y_res = Y - m̂, T_res = T - p̂
+1. Estimate how Y depends on X alone (call it m-hat)
+2. Estimate how T depends on X alone (call it p-hat)
+3. Take residuals: Y_res = Y - m-hat, T_res = T - p-hat
    These residuals have the X-effect removed
 4. Regress Y_res on T_res
 
@@ -92,7 +92,7 @@ Why such a large bias? Because:
   - The confounding structure dominates
 
 Standard Error: Another Win for DML
-OLS SE is 0.0145. DML SE is 0.0045. That's 3.2× smaller.
+OLS SE is 0.0145. DML SE is 0.0045. That's 3.2x smaller.
 
 Why? When you remove the X effect through orthogonalization, the residuals
 have lower noise. You're focusing on the part of Y and T that vary
@@ -111,20 +111,20 @@ significance reflects precision around the true effect. So even though both are
 
 IS DML SENSITIVE TO TUNING?
 
-We tested DML with different Lasso regularization strengths (α):
+We tested DML with different Lasso regularization strengths (alpha):
 
-  α       Estimate    SE      Confidence interval
-  ─────   ────────    ─────   ─────────────────
+  alpha   Estimate    SE      Confidence interval
+  -----   --------    -----   -----------------
   0.001   0.046523    0.0045  [0.0378, 0.0553]
   0.005   0.046621    0.0045  [0.0377, 0.0555]
-  0.010   0.046849    0.0045  [0.0379, 0.0557]  ← we picked this
+  0.010   0.046849    0.0045  [0.0379, 0.0557]  <- we picked this
   0.050   0.049825    0.0047  [0.0407, 0.0589]
   0.100   0.050641    0.0047  [0.0414, 0.0599]
 
 The estimates barely move. From 0.0465 to 0.0506 (half a percentage point). SE
 is stable too. This is the beauty of DML: orthogonalization is forgiving. Even
 if you get the regularization slightly wrong, the final answer doesn't swing
-around. Try that with naive OLS—pick a different model specification and
+around. Try that with naive OLS--pick a different model specification and
 you'll get wildly different answers.
 
 DOES TREATMENT WORK THE SAME FOR EVERYONE?
@@ -132,7 +132,7 @@ DOES TREATMENT WORK THE SAME FOR EVERYONE?
 We also looked at whether effects differ across three population subgroups:
 
   Group    Size   Mean Effect    True Effect    Gap
-  ─────    ────   ───────────    ──────────     ────
+  -----    ----   -----------    ----------     ----
   A        2000   0.0615         0.6156         -0.55
   B        1335   0.0517         0.3969         -0.35
   C         670   0.0621         0.6191         -0.56
@@ -143,13 +143,13 @@ heterogeneity and got the relative ordering right (A and C higher than B).
 The estimates are lower than true values. That's because the heterogeneous
 effect learner (Gradient Boosting) has limited capacity for this problem.
 You'd need a more sophisticated learner or more data to capture the full
-range. But the rankings are correct—that's what matters for targeting.
+range. But the rankings are correct--that's what matters for targeting.
 
 WHAT DOES THIS MEAN IN PRACTICE?
 
 For Decision-Makers:
 Don't trust naive regression when treatment assignment depends on observable
-characteristics. The OLS coefficient here is 7× too high. If you made policy
+characteristics. The OLS coefficient here is 7x too high. If you made policy
 based on it, you'd overestimate benefits by an order of magnitude.
 
 Use debiasing methods like DML. We showed it works: 86% bias reduction,
@@ -159,7 +159,7 @@ for identifying which subgroups benefit most.
 For Researchers:
 Orthogonalization is surprisingly effective. By partialing out the confounding
 structure first, you isolate the causal effect cleanly. Cross-fitting is
-essential—it prevents overfitting bias from polluting your final answer.
+essential--it prevents overfitting bias from polluting your final answer.
 Without it, you'd be back to square one.
 
 Validation Checks
@@ -176,19 +176,19 @@ BOTTOM LINE
 
 When treatment is confounded by lots of observable factors (high-dimensional
 confounding), naive regression fails spectacularly. In our example, it was off
-by 7× because it conflated the true treatment effect with the effect of the
+by 7x because it conflated the true treatment effect with the effect of the
 confounders.
 
 DML fixes this through orthogonalization. You estimate the confounding structure
-(m̂ and p̂), remove it via residuals, then estimate the treatment effect cleanly.
+(m-hat and p-hat), remove it via residuals, then estimate the treatment effect cleanly.
 Result: 86% bias reduction, tighter inference, and robustness to tuning.
 
-The key insight: orthogonalization is forgiving. Small errors in estimating m̂
-and p̂ don't destroy your final answer. That's why DML works even with flexible
+The key insight: orthogonalization is forgiving. Small errors in estimating m-hat
+and p-hat don't destroy your final answer. That's why DML works even with flexible
 learners like Lasso or Random Forest. The theory backs it up (Neyman
 orthogonality principle).
 
 Bottom line: use DML when you have high-dimensional confounding. It's not just
-statistically valid—it actually gets answers closer to the truth.
+statistically valid--it actually gets answers closer to the truth.
 
 ================================================================================
