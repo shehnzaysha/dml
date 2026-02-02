@@ -291,21 +291,7 @@ WHAT WAS DELIVERED
 
 All code is documented, reproducible, and open for extension.
 
-
-REFERENCES
-================================================================================
-
-Chernozhukov, V., Newey, W. K., & Robins, J. M. (2017).
-"Double/Debiased Machine Learning for Treatment and Causal Parameters."
-The Econometric Society. Foundational paper on DML methodology.
-
-Imbens, G. W., & Wooldridge, J. M. (2009).
-"Recent Developments in the Econometrics of Program Evaluation."
-Journal of Economic Literature 47(1):5-86. Classic treatment effects survey.
-
-These references provide the theoretical foundation and context for the
-approach used here.
-
 ================================================================================
 End of Report
 ================================================================================
+
