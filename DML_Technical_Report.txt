@@ -276,22 +276,8 @@ Smaller SE means tighter confidence intervals and more statistical power. Both
 accounts matter: you get unbiased estimates with better precision.
 
 
-WHAT WAS DELIVERED
-================================================================================
-
-1. Implementation: dml_project_full.py
-   A full, runnable Python script that implements DML end-to-end. It simulates
-   data, fits the algorithm, and produces all results reported here.
-
-2. Technical Report: This document
-   Detailed walkthrough of methodology, assumptions, and findings.
-
-3. Comparison Analysis: DML_vs_OLS_Comparison.txt
-   Side-by-side comparison of DML and naive OLS results, with bias analysis.
-
-All code is documented, reproducible, and open for extension.
-
 ================================================================================
 End of Report
 ================================================================================
+
 
